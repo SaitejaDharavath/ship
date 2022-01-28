@@ -1,0 +1,80 @@
+<mat-card>
+  <mat-form-field appearance="outline">
+   <mat-label>Starting Date</mat-label>
+   <input matInput  [matDatepicker]="picker" (dateChange)="getDates()"  [(ngModel)]="startDate">
+   <mat-datepicker-toggle  matSuffix [for]="picker"></mat-datepicker-toggle>
+   <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Select</mat-label>
+    <mat-select class="mat">
+      <mat-option  value="one">Berth</mat-option>
+      <mat-option value="two">Berth1</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Time Scale</mat-label>
+      <mat-select (selectionChange)="multiplesTime()"  [(ngModel)]="timeInhrs">
+      <mat-option [value]="time" *ngFor="let time of times">{{time}}</mat-option>
+   </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>axis</mat-label>
+      <mat-select (selectionChange)="dragAndDropPosition()"  [(ngModel)]="axis">
+      <mat-option [value]="plane" *ngFor="let plane of planes">{{plane}}</mat-option>
+   </mat-select>
+  </mat-form-field>
+  <mat-slider
+    thumbLabel
+    [displayWith]="formatLabel"
+    [(ngModel)]="metres"
+    (change)="sliderLengthUnits()"
+    step="10"
+    min="min"
+    max="max"
+    aria-label="units">
+  </mat-slider>
+</mat-card>
+<div>
+  <p>Berth:{{berth}}</p>
+</div>
+<table class="mat-elevation-z8">
+  <tr class="mat-row">
+    <td class="mat-cell"></td>
+    <td class="mat-cell"></td>
+    <td  *ngFor="let l of length1;" class="mat-cell">{{l}}</td>
+  </tr>
+      <tr class="mat-header-row">
+        <th class="mat-header-cell"></th>
+        <th class="mat-header-cell"></th>
+        <th colspan="10" class="mat-header-cell" style="background-color: rgb(216, 55, 55);">Berth-1</th>
+        <th colspan="10"  class="mat-header-cell" style="background-color:rgb(16, 101, 180)">Berth-2</th>
+        <th colspan="10"  class="mat-header-cell" style="background-color:rgb(50, 83, 50)">Berth-3</th>
+      </tr>
+      <tr class="mat-row">
+        <td class="mat-cell">Day</td>
+        <td class="mat-cell">Time</td>
+        <td  *ngFor="let l of length;" class="mat-cell">{{l}}</td>
+      </tr>
+      <tr class="mat-row" *ngFor="let date of Dates" class="mat-row" >
+        <td class="mat-cell">{{date}}</td>
+        <td class="mat-cell">
+          <table >
+            <tr  class="mat-row" *ngFor="let t of timeSlot">{{t}}:00</tr>
+          </table>
+        </td>
+        <td>
+          <div>
+            <span *ngIf="x" class="example-box" cdkDragLockAxis="y" cdkDrag >
+              I can only be dragged up/down
+            </span>
+            <span *ngIf="y" class="example-box"  cdkDragLockAxis="x" cdkDrag>
+              I can only be dragged left/right
+            </span>
+            <span [(ngModel)]="shipDetails" id="box" *ngIf="xy" class="example-box" cdkDrag [cdkDragFreeDragPosition]="dragPosition" (click)="onMousemove($event)">
+              Drag me around
+            </span>
+          </div>
+        </td>
+      </tr>   
+ </table>
